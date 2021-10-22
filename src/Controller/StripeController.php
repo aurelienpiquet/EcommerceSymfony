@@ -22,7 +22,7 @@ class StripeController extends AbstractController
     public function index(Cart $cart, $reference, EntityManagerInterface $entityManager, CommandRepository $commandRepository): Response
     {
 
-        Stripe::setApiKey('sk_test_51JbRxgIuZ3bNcJNfGUZF6lBjfcizl5YlIjynHSBUrzoDGl7w5Gc14LVmZVmYPyChqvqszXsOyZmIsgfwr9B660yr00wOCCOnxf');
+        Stripe::setApiKey('');
         $articles_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
 
