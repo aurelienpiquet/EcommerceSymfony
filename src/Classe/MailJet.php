@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class MailJet
 {
-   private $api_key = "96bb715a25f2ec5b0e07aa1a259e5390";
-   private $api_key_secret = "f7c9db56b3d9155ae61a4d1972354f05";
+   private $api_key = "";
+   private $api_key_secret = "";
 
    public function send($to_email, $to_name, $subject, $content)
    {
@@ -20,7 +20,7 @@ class MailJet
            'Messages' => [
                [
                    'From' => [
-                       'Email' => "aelor666@hotmail.com",
+                       'Email' => "",
                        'Name' => "MaBoutique - Piquet Aurélien"
                    ],
                    'To' => [
