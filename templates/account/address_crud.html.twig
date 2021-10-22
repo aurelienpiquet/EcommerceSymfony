@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container mt-5">
+        {{ form_start(form) }}
+        <div class="row g-3">
+            <div class="col-md-6">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.compagny) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.lastname) }}
+            </div>
+            <div class="col-12">
+                {{ form_row(form.street) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.city) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.zipcode) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.country) }}
+            </div>
+            <p class="ms-5 mt-0 mb-0"><small>(* champs obligatoires)</small></p>
+            <div class="d-flex col-12 justify-content-center">
+                    {{ form_row(form.submit) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+    </section>
+
+{% endblock %}

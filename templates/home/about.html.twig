@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{asset('static/css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+    <section class="container bg-light">
+        <hr class="featurette-divider">
+        <div class="row featurette align-items-center">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">First featurette heading.<br> <span class="about-title">It’ll blow your mind.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="img-fluid" src="{{ asset('static/img/2.jpg') }}" alt="Sac à main" title="Une image de sac à main">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="about-title">See for yourself.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img class="img-fluid" src="{{ asset('static/img/3.jpg') }}" alt="Robe Flower by Flaura" title="Une image de robe Flower by Flaura">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, this one. <span class="about-title">Checkmate.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="img-fluid" src="{{ asset('static/img/4.jpg') }}" alt="Robe Flower by Flaura" title="Une image de robe Flower by Flaura">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+    </section>
+    <!-- /END THE FEATURETTES -->
+{% endblock %}

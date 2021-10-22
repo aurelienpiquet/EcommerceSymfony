@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container mt-5">
+        <p>N'hésitez pas à prendre contact avec notre équipe, nous vous répondrons dans les plus bref délais.</p>
+        <hr>
+        {{ form_start(form) }}
+        <div class="row g-3">
+            <div class="col-md-6">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.lastname) }}
+            </div>
+            <div class="col-md-12">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-12">
+                {{ form_row(form.message) }}
+            </div>
+            <p class="ms-5 mt-0 mb-0"><small>(* champs obligatoires)</small></p>
+            <div class="d-flex col-12 justify-content-center">
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+    </section>
+
+{% endblock %}

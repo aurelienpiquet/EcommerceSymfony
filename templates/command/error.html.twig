@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container">
+        <p class="mt-5">Bonjour, <strong>{{ command.user.firstname }} {{ command.user.lastname }}</strong></p>
+        <p>Une erreur est survenue pendant le paiement de votre commande <strong>{{ command }}</strong>. <br>Une confirmation vous a été envoyée par email
+            à l'adresse: <strong>{{ command.user.email }}</strong>.
+        <hr>
+        <p>Pour ré-essayer de payer votre commande, <a href="{{ path('command') }}">Cliquez-ici.</a></p>
+        <hr>
+    </section>
+
+{% endblock %}

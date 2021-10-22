@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container">
+        <a class="text-center" href="{{ path('account_command') }}">Retour</a>
+        <hr>
+        <p>Commande passée le : <strong>{{ command.createdOn|date('d/m/y') }}</strong></p>
+        <p>Référence de la commande : <strong>{{ command }}</strong></p>
+        <p>Status de la commande : <strong>{{ command.state_to_str }}</strong></p>
+        <p>Transporteur : <strong>{{ command.carrier_to_str }}</strong></p>
+        <p>Détails de la commande : </p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Article</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in command.orderDetails %}
+            <tr>
+                <td><a href="{{ path('article-slug', {slug:article.article.slug}) }}">{{ article.article.name }}</a></td>
+                <td>{{ article.quantity }}</td>
+                <td>{{ article.article.price / 100}}€</td>
+                <td>{{ article.total / 100 }}€</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="text-end">Prix total avec livraison: <strong class="price">{{ command.getTotal / 100 }}€</strong></p>
+    </section>
+
+
+{% endblock %}

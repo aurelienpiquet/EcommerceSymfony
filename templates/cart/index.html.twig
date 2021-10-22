@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+    <section class="container-fluid mt-5">
+        {% if app.session.get('nb_articles') < 1 %}
+        <p class="text-center">Vous n'avez aucun article dans votre panier, <a href="{{ path('articles') }}">cliquez-ici</a> pour commencer à le remplir.</p>
+        {% else %}
+            <div class="row justify-content-center">
+            <div class="col-md-7">
+                <ul class="list-group">
+                    {% for article in cart %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-2">
+                                    <a href="{{ path('article-slug', { 'slug' : article.article.slug}) }}">
+                                        <img class="img-fluid" src="/upload/article/{{ asset(article.article.illustration) }}" alt="Image de {{ article.article.name }}" title="Image de {{ article.article.name }}">
+                                    </a>
+                                </div>
+                                <div class="col-8">
+                                    <h5>{{ article.article.name }}</h5>
+                                    <p><a href="{{ path('articles-by-collection', {'slug' : article.article.newCollection.slug }) }}">{{ article.article.newCollection.name }}</a></p>
+                                    <p> {{ article.article.price / 100 }}€  <a href="{{ path('cart-remove-one', { 'id' : article.article.id }) }}"><i class="fas fa-minus-circle"></i></a> <strong>{{ article.quantity }}</strong>
+                                        <a href="{{ path('cart-add-one', {'id' : article.article.id }) }}"><i class="fas fa-plus-circle"></i></a>
+                                        <span class="float-end small-price">Total : {{ article.article.price * article.quantity / 100 }}€</span></>
+                                    <p class="mb-0"><small>({{ article.article.stock }} {% if article.article.stock > 1 %} articles {% else %} article {% endif %} en stock).</small></p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="btn-group mt-2 mb-2 float-end">
+                    <a href="" class="btn btn-success">Valider le panier</a>
+                    <a href="{{ path('cart-delete') }}" class="btn btn-outline-dark">Vider le panier</a>
+                </div>
+            </div>
+            <div class="col-md-3 bg-white border rounded cart">
+                {% if not is_granted('ROLE_USER') %}
+                <div class="p-1">
+                    <p>Connectez-vous pour profitez de nos offres! </p>
+                    <a class="btn btn-outline-dark w-100 m-auto rounded-0 btn-lg" href="{{ path('app_login') }}">Se connecter</a>
+                    <hr>
+                </div>
+                {% else %}
+                    <div class="p-1">
+                        <p>Choississez une de nos remises! </p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <label class="form-check-label" for="inlineRadio1">Vos points</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                            <label class="form-check-label" for="inlineRadio2">Un bon cadeau</label>
+                        </div>
+                        <hr>
+                    </div>
+                {% endif %}
+                <p>Vous avez <strong>{{ app.session.get('nb_articles') }} {% if app.session.get('nb_articles') > 1 %} articles {% else %} article {% endif %}</strong> dans votre panier.</p>
+                <p>Valeur de la commande : <span class="float-end">{{ total_price / 100 }}€</span></p>
+                <p>Livraison estimée : <span class="float-end">4.99€</span></p>
+                <hr style="height:5px; color:black">
+                <h3 class="d-flex align-items-center"><span>Total:</span><span class="ms-auto price">{{ total_price / 100 + 4.99 }}€</span></h3>
+                <div class="mt-2 mb-2 text-center w-100">
+                    <a href="{{ path('command') }}" class="btn btn-success btn-lg rounded-0 w-100">Valider le panier</a>
+                </div>
+            </div>
+            </div>
+        {% endif %}
+        </section>
+
+{% endblock %}

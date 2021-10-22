@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <article class="container m-auto row justify-content-center align-items-start">
+        <div class="col-md-5">
+            <img class="img-fluid" src="/upload/article/{{ article.illustration }}" alt="Image de {{ article.name}}" title="Titre de {{ article.name }}">
+        </div>
+        <div class="col-md-7">
+            <h2><small> {{ article.newCollection }}</small></h2>
+            <h3><small>{{ article.subtitle }}</small></h3>
+            <h4>{{ article.price  / 100}}€ <span><small><em>(
+                            {% if article.stock == 0 %} indisponible pour le moment)
+                            {% elseif article.stock > 1%} {{ article.stock }} articles en stock)
+                            {% else %} {{ article.stock }} article en stock)
+                            {% endif %} </em></small></span></h4>
+            <p> {{ article.description }} </p>
+            <div class="mt-5 d-inline">
+                <form action="{{ path('cart-add', {'id' : article.id }) }}" method="post">
+                    {% if article.stock > 0 %}
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-3">
+                                {{ form_row(form.addNumber, {'attr': {'id': 'foo', 'name':'foo'}}) }}
+                            </div>
+                            <div class="col-md-8">
+                                {{ form_row(form.submit) }}
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    {% else %}
+                        <p class="text-danger"><em>Article indisponible pour le moment.</em></p>
+                    {% endif %}
+                </form>
+            </div>
+            <section class="mt-3 mb-3 container me-auto ms-auto d-none d-md-block">
+                <h2> Nos autres {{ article.categorie }} </h2>
+                <div class="row">
+                    {% for article in other_articles %}
+                        <div class="col-2 mb-2">
+                            <a href="{{ path('article-slug', { 'slug' : article.slug }) }}">
+                                <img class="img-fluid" src="/upload/article/{{ asset(article.illustration) }}" alt="{{ article.name }}" title="{{ article.name }}">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </article>
+    {% if comments %}
+        <section class="container mb-3 mt-3">
+            <h2> Les Avis sur cet article. </h2>
+            <h3><span class="price price-total"></span>/5</h3>
+            <p> Calculé à partir de  avis client.</p>
+            {% for comment in comments %}
+                <article>
+                    <h3><span class="small-price">{{ comment.user }}</span> | <small>publié le {{ article.created_on }}</small></h3>
+                    <h4>
+                        for i in "x"|ljust:5
+                             if forloop.counter <= comment.rating
+                                <span>&#11088</span>
+                             else
+                                <span>&#9734</span>
+                             endif
+                        endfor
+                        <span><small>{{ comment.rating }}/5</small></span>
+                    </h4>
+                    <p>"{{ comment.content }}"</p>
+                </article>
+            {% endfor %}
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container-fluid mt-5">
+        <p class="ms-5">Bienvenue dans votre compte <strong>{{ app.user.firstname |capitalize }}</strong>. <br> Dans cet espace vous pouvez modifier vos informations personnelles.</p>
+        <div class="row justify-content-evenly ">
+            <div class="card col-6 col-md-4 col-lg-2 m-1">
+                <h5 class="card-header">Mes Commandes</h5>
+                <a href="{{ path('account_command') }}">
+                    <div class="card-body">
+                        <p class="card-text">Suivre, retourner ou acheter à nouveau.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card col-6 col-md-4 col-lg-2 m-1">
+                <h5 class="card-header">Mes Adresses</h5>
+                <a href="{{ path('account_address') }}">
+                    <div class="card-body">
+                        <p class="card-text">Gérer mes adresses et mes préférences de livraison et de facturation.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card col-6 col-md-4 col-lg-2 m-1">
+                <h5 class="card-header">Sécurité</h5>
+                <div class="card-body">
+                    <p class="card-text"><a href="{{ path('account_modify_password') }}">Modifier votre mot de passe.</a></p>
+                </div>
+
+            </div>
+            <div class="card col-6 col-md-4 col-lg-2 m-1">
+
+                <h5 class="card-header">Messagerie</h5>
+                <a href="">
+                    <div class="card-body">
+                        <p class="card-text">Consulter vos messages.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card col-6 col-md-4 col-lg-2 m-1">
+
+                <h5 class="card-header">Aide</h5>
+                <a href="">
+                    <div class="card-body">
+                        <p class="card-text">Consulter la rubrique d'aide.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

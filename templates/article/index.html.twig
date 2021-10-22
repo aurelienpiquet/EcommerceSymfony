@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="navigation w-25 m-auto">
+        {{ knp_pagination_render(articles) }}
+    </div>
+    <section class="row container-fluid justify-content-center m-auto">
+        {% if form != "" %}
+        <div class="col-2">
+            {{ form(form) }}
+        </div>
+        {% endif %}
+        <div class="col-8 row justify-content-evenly container">
+            {% for article in articles %}
+                <article class="col-md-4 col-lg-3 mb-3">
+                    <a href="{{ path('article-slug', { 'slug' : article.slug }) }}">
+                        <img class="img-fluid" src="/upload/article/{{ asset(article.illustration) }}" alt="{{ article.name }}">
+                    </a>
+                    <div class="row justify-content-lg-evenly align-content-center mt-2">
+                        <div class="col-9 col-md-12 col-lg-9"> {{ article.name }} </div>
+                        <div class="col-3 col-md-12 col-lg-3"> {{ article.price / 100|number_format(2,'.', ',') }}€ </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

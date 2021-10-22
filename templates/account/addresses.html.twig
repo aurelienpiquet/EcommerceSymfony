@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container-fluid">
+        <p class="text-center">Dans cet espace, vous allez pouvoir gérer vos adresses de livraison et de facturation.</p>
+        {% if addresses|length < 1 %}
+            <p class="text-center">Vous n'avez aucune adresse enregistrée pour le moment. <a href="{{ path('account_address_add') }}">Cliquez ici</a> pour en rajouter une.</p>
+        {% else %}
+            <div class="d-flex flex- justify-content-center">
+                    <div class="card border border-1 m-1" style="width: 18rem;">
+                        <div class="card-body text-center pt-5">
+                            <a href="{{ path('account_address_add') }}">
+                                <div class="pt-4">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <p class="mt-2"><strong>Ajouter une adresse</strong></p>
+                            </a>
+                        </div>
+                    </div>
+            {% for address in addresses %}
+                    <div class="card m-1 rounded shadow" style="width: 18rem;">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <p class="mb-0">{{ address.name|capitalize }}</p>
+                                <div class="ms-auto form-check form-switch">
+                                    <a href="{{ path('account_address_select', {'id' : address.id }) }}">
+                                        <input class="form-check-input" type="checkbox" id="check-{{ address.id }}" {% if address.selected %} checked {% endif %}>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr class="mt-1 mb-1">
+                            <h5 class="card-title">{{ address.firstname|capitalize }} {{ address.lastname|capitalize }}</h5>
+                            <p class="card-text m-0">{{ address.street|title }}</p>
+                            <p class="card-text m-0">{{ address.city|capitalize }}, {{ address.zipcode }}</p>
+                            <p class="card-text m-0">{{ address.country|capitalize }}</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ path('account_address_update', {'id' : address.id }) }}" class="card-link">Modifier</a>
+                                <span class="ms-2 me-2"> | </span>
+                                <a href="{{ path('account_address_remove', {'id' : address.id }) }}" class="card-link">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+{% endblock %}

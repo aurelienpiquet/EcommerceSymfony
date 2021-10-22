@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    {% block carousel %}
+    <div id="carouselExampleIndicators" class="carousel slide m-sm-0" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for page in pages %}
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{page}}" {% if loop.index == 1 %} class="active" aria-current="true" {% endif %} aria-label="Slide {{page}}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for collection in collections %}
+                <div class="carousel-item relative {% if loop.index == 1 %} active {% endif %}">
+                    <div class="d-block w-100">
+                        <img src="upload/collection{{ asset(collection.illustration) }}" class="img-fluid carousel-img"  alt="{{ collection.name }}">
+                    </div>
+                    <a href="{{ path('articles-by-collection', { 'slug' : collection.slug }) }}">
+                        <div class="carousel-caption">
+                            <h1>{{ collection.creator }} </br> <small class="d-none d-md-block">présente</small> </br> <strong>{{ collection.name }}</strong></h1>
+                            <p class="text-start d-none d-md-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit perspiciatis aperiam quae quaerat ratione nobis enim quisquam voluptatibus. Suscipit, expedita saepe? </p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% endblock %}
+
+    <section class="container mt-md-3 mb-md-3">
+        <div class="row justify-content-evenly align-items-center">
+            {% for categorie in categories %}
+                <article class="relative col-md-3 mb-2 mb-md-0">
+                    <a href="{{ path('articles-by-categorie', {'slug' : categorie.slug }) }}">
+                        <div class="category-title-div">
+                            <h2 class="category-title-img">{{ categorie.name }}</h2>
+                        </div>
+                        <img src="upload/categorie{{ asset(categorie.illustration) }}" alt="{{ categorie.name }}" class="img-fluid img-blur">
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

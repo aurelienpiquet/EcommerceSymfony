@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container m-auto">
+        <p class="text-center m-3">Choississez vos préférences avant de passer votre commande.</p>
+        <hr>
+        {% set formHtml %}
+        {{ form_start(form, {action:path('command-recap')}) }}
+        <div class="row align-items-start">
+            <div class="col-md-6">
+                <div class="bg-white border p-3">
+                    <h5>{{ form_label(form.addresses, 'Choississez votre adresse de livraison') }}</h5>
+                    <a href="{{ path('account_address_add') }}">Ajouter une nouvelle adresse</a>
+                    <p class="">{{ form_row(form.addresses) }}</p>
+                </div>
+                <div class="d-flex flex-wrap bg-white border p-3">
+                    <h5 class="w-100">{{ form_label(form.carrier, 'Choississez votre méthode de livraison') }}</h5>
+                    <p class="">{{ form_row(form.carrier) }}</p>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column">
+                <div class="bg-white border p-3">
+                    <h3><legend class="col-form-label">Récap de la commande</legend></h3>
+                    <p>Retrouvez le recapitulatif de vos produits.</p>
+                    <ul>
+                        {% for article in cart.cart_complete %}
+                            <div class="row align-items-center">
+                                <div class="col-md-2 text-center">
+                                    <img class="img-fluid" src="/upload/article/{{ asset(article.article.illustration) }}" alt="" style="height:75px">
+                                </div>
+                                <div class="col-md-8">
+                                    <h5>{{ article.article.name }}</h5>
+                                    <p>{{ article.article.subtitle }}</p>
+                                </div>
+                                <div class="col-md-1">
+                                    <p class="text-center"> x{{ article.quantity }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                    <input class="btn btn-success btn-lg rounded-0 w-100" type="submit" value="Payer votre commande">
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+        {% endset %}
+        {{ formHtml|replace({'[br]':'<br>'}) | raw}}
+    </section>
+{% endblock %}

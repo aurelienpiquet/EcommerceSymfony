@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} MaBoutique - Permission non valide {% endblock %}
+
+{% block content %}
+    <section class="container">
+        <h2>Vous n'avez pas les droits pour accéder à cette page</h2>
+        <a class="btn btn-success" href="{{ path('home') }}">Retour</a>
+    </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container">
+        <p class="mt-5">Bonjour, <strong>{{ command.user.firstname }} {{ command.user.lastname }}</strong></p>
+        <p>Votre commande <strong>{{ command }}</strong> a bien été enregistée. Une confirmation vous a été envoyée par email
+            à l'adresse: <strong>{{ command.user.email }}</strong>.
+        <hr>
+        <p>Votre commande sera livrée par {{ command.carrierName }} à l'adresse suivante: </p>
+        <p class="ms-3">{{ command.deliveryInformation|replace({',':'<br>'})|raw  }}</p>
+        <hr>
+        <p>Pour suivre votre commande, rendez-vous dans <a href="{{ path('account') }}">votre compte</a>.</p>
+    </section>
+
+{% endblock %}

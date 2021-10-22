@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block javascript %}
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block content %}
+    <section class="container m-auto">
+        <p class="text-center m-3">Vérifier vos informations avant de payer votre commande.</p>
+        <hr>
+            <div class="row align-items-start">
+                <div class="col-md-6">
+                    <div class="bg-white border p-3">
+                        <p><strong>Adresse de livraison</strong></p>
+                        <h5>{{ command.deliveryInformation | replace({',':'<br>'})|raw }}</h5>
+                    </div>
+                    <div class="bg-white border p-3 mt-2">
+                        <p><strong>Transporteur sélectionné</strong></p>
+                        <h5>{{ command.carrierName }} - {{ command.carrierPrice / 100 }}€</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="border p-3 bg-white">
+                        <p>Retrouvez le recapitulatif de vos produits.</p>
+                        <ul>
+                            {% for article in cart.cart_complete %}
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 text-center">
+                                        <img class="img-fluid" src="/upload/article/{{ asset(article.article.illustration) }}" alt="" style="height:75px">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <h5>{{ article.article.name }}</h5>
+                                        <p>{{ article.article.price / 100 }}€ x {{ article.quantity }} :
+                                            <span class="small-price float-end">{{ article.article.price / 100 * article.quantity}} €</span></p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <p>Sous Total : <span class="float-end">{{ sum / 100 }}€</span></p>
+                        <p>Livraison: <span class="float-end">{{ carrier / 100 }}€</span></p>
+                        <h3>Total : <span class="price float-end">{{ (sum + carrier) / 100}}€</span></h3>
+                        <form action="{{ path('stripe_create_session', { 'reference' : reference}) }}" method="POST">
+                            <button class="btn btn-success btn-lg rounded-0 w-100" type="submit" id="checkout-button">Payer {{ (sum + carrier) / 100 }}€ avec Stripe <i class="fab fa-stripe"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </section>
+{% endblock %}

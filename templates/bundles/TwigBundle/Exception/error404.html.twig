@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} MaBoutique - Page non trouvée {% endblock %}
+
+{% block content %}
+    <section class="container">
+        <h2>Page Introuvable</h2>
+        <p>Cet article n'est pas trouvé</p>
+        <a class="btn btn-success" href="{{ path('home') }}">Retour</a>
+    </section>
+{% endblock %}

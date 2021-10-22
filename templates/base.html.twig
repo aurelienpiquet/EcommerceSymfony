@@ -1,19 +1,142 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Boutique qui vend uniquement mes articles préférés!">
+    <meta name="author" content="Aurelien Piquet">
+    <meta name="generator" content="Jekyll v4.1.1">
+
+    <title>{% block title %}MaBoutique - {{ title }}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link href="{{ asset('static/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('static/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('static/css/carousel.css') }}" rel="stylesheet">
+
+    {% block css %}{% endblock %}
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    {% block javascript %}{% endblock %}
+</head>
+<body class="bg-light">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{{ path('home') }}">Ma Boutique</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('articles') }}">Nos acticles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('about') }}">Qui-sommes nous?</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Administration</a>
+                </li>
+                {% endif %}
+                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('account') }}">Mon Compte (<small>{{ app.user.firstname }}</small>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('register') }}">Inscription</a>
+                    </li>
+                {% endif%}
+                <li class="ml-2">
+                    <a href="{{ path('cart') }}">
+                        {% if app.session.get('nb_articles') > 0 %}
+                            <div class="nb-article d-flex justify-content-center align-items-center">
+                                <div class="col-6 text-center pe-0 ps-0">
+                                    <img class="img-fluid" src="{{ asset('static/img/cart.png') }}" alt="Panier" title="Votre Panier" height="24px">
+                                </div>
+                                <div class="text-center align-items-center d-flex">
+                                    <div class="p-0 m-0">{{ app.session.get('nb_articles') }}</div>
+                                    <span class='text-white'> {% if app.session.get('nb_articles') > 1%} articles {% else %} article{% endif %}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="p-0 m-0"> Votre panier est vide. </p>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+    {% for label, messages in app.flashes(['success', 'warning', 'notice']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% if block("carousel") is not defined %}
+        <section class="marketing mt-5 mb-5">
+            <h1 class="text-center"> {{ title }} </h1>
+    {% else %}
+         <section class="marketing">
+    {% endif %}
+    {% block content %}{% endblock %}
+         </section>
+</main>
+<!-- FOOTER -->
+<footer class="container-fluid bg-dark text-white align-items-center">
+    <ul class="container text-center d-flex justify-content-center align-items-center mb-0">
+        <li class="me-2 nav-link">
+            <a class="text-light" href="#Top">Retour en haut</a>
+        </li>
+        <li class="me-2 nav-link">
+            &copy; MaBoutique. AurelienP
+        </li>
+        <li class="me-2 nav-link">
+            <a class="text-light" href="#">Contact</a> |  <a class="text-light" href="#">Terms</a>
+        </li>
+    </ul>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
 </html>

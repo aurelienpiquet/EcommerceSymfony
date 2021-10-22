@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="container mt-5">
+        {% if commands|length > 0 %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">N° de Commande</th>
+                    <th scope="col">Passée le</th>
+                    <th scope="col">Produit(s)</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for command in commands|reverse %}
+                    <tr>
+                        <th scope="row">{{ command }}</th>
+                        <td>{{ command.createdOn|date('d/m/Y') }}</td>
+                        <td>{{ command.orderDetails|length }}</td>
+                        <td>{{ command.total / 100}}€</td>
+                        <td>{{ command.state_to_str }}</td>
+                        <td><a href="{{ path('account_command_detail', {'reference' : command.reference}) }}">Voir cette commande</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table
+        {% else %}
+            <p>Vous n'avez réalisé aucune commande sur notre site pour le moment.</p>
+        {% endif %}
+    </section>
+
+{% endblock %}
